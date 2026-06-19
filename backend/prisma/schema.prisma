@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Faculty {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  majors Major[]
+}
+
+model Major {
+  id        Int       @id @default(autoincrement())
+  name      String
+  faculty   Faculty   @relation(fields: [facultyId], references: [id])
+  facultyId Int
+  students  Student[]
+
+  @@unique([facultyId, name])
+}
+
+model Student {
+  id          Int          @id @default(autoincrement())
+  studentCode String       @unique
+  firstName   String
+  lastName    String
+  email       String       @unique
+  year        Int
+  major       Major        @relation(fields: [majorId], references: [id])
+  majorId     Int
+  enrollments Enrollment[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Course {
+  id          Int          @id @default(autoincrement())
+  courseCode  String       @unique
+  name        String
+  credit      Int
+  maxSeat     Int          @default(40)
+  enrollments Enrollment[]
+}
+
+model Enrollment {
+  id         Int      @id @default(autoincrement())
+  student    Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId  Int
+  course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId   Int
+  grade      String?
+  enrolledAt DateTime @default(now())
+
+  @@unique([studentId, courseId])
+}
