@@ -64,7 +64,7 @@ crud-tutorial/
 
 ## 3. Database Spec (ER + Prisma)
 
-ใช้ database `crud_db` ที่มีอยู่แล้ว และจัดการ schema ทั้งหมดผ่าน **Prisma**
+ใช้ database `register_system_db` (สร้างจาก `docker-compose.yml`) และจัดการ schema ทั้งหมดผ่าน **Prisma**
 
 ### 3.1 ER Diagram
 
@@ -194,7 +194,7 @@ model Enrollment {
 
 ไฟล์ `backend/.env` (ค่าตรงกับ `docker-compose.yml`):
 ```
-DATABASE_URL="mysql://app:app@localhost:3306/crud_db"
+DATABASE_URL="mysql://app:app@localhost:3306/register_system_db"
 ```
 
 คำสั่งที่ใช้:
